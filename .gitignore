@@ -131,5 +131,3 @@ dmypy.json
 **/bin/
 
 yolo_example
-
-config_files/yolov4-tiny.weights
