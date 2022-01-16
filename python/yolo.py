@@ -1,12 +1,16 @@
 import cv2
 import time
 
-def build_model():
+def build_model(is_cuda):
     net = cv2.dnn.readNet("config_files/yolov4-tiny.weights", "config_files/yolov4-tiny.cfg")
-    #net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
-    #net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
-    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
-    net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
+    if is_cuda:
+        print("Attempty to use CUDA")
+        net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+        net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
+    else:
+        print("Running on CPU")
+        net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+        net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
 
     model = cv2.dnn_DetectionModel(net)
     model.setInputParams(size=(416, 416), scale=1./255, swapRB=True)
@@ -24,7 +28,7 @@ def load_classes():
 
 colors = [(255, 255, 0), (0, 255, 0), (0, 255, 255), (255, 0, 0)]
 
-model = build_model()
+model = build_model(True)
 capture = load_capture()
 class_list = load_classes()
 

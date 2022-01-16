@@ -15,13 +15,17 @@ std::vector<std::string> load_class_list() {
 
 const std::string YOLO_VERSION = "v4-tiny";
 
-void load_net(cv::dnn::Net &net) {
+void load_net(cv::dnn::Net &net, bool is_cuda) {
     auto result = cv::dnn::readNetFromDarknet("config_files/yolo" + YOLO_VERSION + ".cfg", "config_files/yolo" + YOLO_VERSION + ".weights");
-    net.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
-    net.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
-    //net.setPreferableBackend(cv::dnn::DNN_BACKEND_CUDA);
-    //net.setPreferableTarget(cv::dnn::DNN_TARGET_CUDA_FP16);
-
+    if (is_cuda) {
+        std::cout << "Attempty to use CUDA\n";
+        net.setPreferableBackend(cv::dnn::DNN_BACKEND_CUDA);
+        net.setPreferableTarget(cv::dnn::DNN_TARGET_CUDA_FP16);
+    } else {
+        std::cout << "Running on CPU\n";
+        net.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
+        net.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
+    }
     net = result;
 }
 
@@ -40,7 +44,7 @@ int main(int argc, char ** argv)
 	}
 
     cv::dnn::Net net;
-    load_net(net);
+    load_net(net, true);
 
     auto model = cv::dnn::DetectionModel(net);
     model.setInputParams(1./255, cv::Size(416, 416), cv::Scalar(), true);
