@@ -30,3 +30,5 @@ g++ -O2 cpp/yolo.cpp -o yolo_example `pkg-config --cflags --libs opencv4`
 ./yolo_example
 ```
 ![running the examples](https://github.com/doleron/yolov4-opencv-cpp-python/raw/main/yolov4.png)
+
+PS.: Video sample from [https://www.youtube.com/watch?v=NyLF8nHIquM](https://www.youtube.com/watch?v=NyLF8nHIquM)
