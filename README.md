@@ -19,6 +19,15 @@ git clone https://github.com/doleron/yolov4-opencv-cpp-python.git
 cd yolov4-opencv-cpp-python
 python python/yolo.py 
 ```
+
+If you machine/OpenCV install are CUDA capable you can try out running using the GPU:
+
+```bash
+git clone https://github.com/doleron/yolov4-opencv-cpp-python.git
+cd yolov4-opencv-cpp-python
+python python/yolo.py cuda
+```
+
 ## Running the C++ program
 
 The C++ code is [here](cpp/yolo.cpp).
@@ -28,6 +37,15 @@ git clone https://github.com/doleron/yolov4-opencv-cpp-python.git
 cd yolov4-opencv-cpp-python
 g++ -O2 cpp/yolo.cpp -o yolo_example `pkg-config --cflags --libs opencv4`
 ./yolo_example
+```
+
+Or using CUDA if available:
+
+```bash
+git clone https://github.com/doleron/yolov4-opencv-cpp-python.git
+cd yolov4-opencv-cpp-python
+g++ -O2 cpp/yolo.cpp -o yolo_example `pkg-config --cflags --libs opencv4`
+./yolo_example cuda
 ```
 ![running the examples](https://github.com/doleron/yolov4-opencv-cpp-python/raw/main/yolov4.png)
 

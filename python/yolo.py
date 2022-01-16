@@ -1,5 +1,6 @@
 import cv2
 import time
+import sys
 
 YOLO_VERSION = "v4-tiny"
 
@@ -30,7 +31,9 @@ def load_classes():
 
 colors = [(255, 255, 0), (0, 255, 0), (0, 255, 255), (255, 0, 0)]
 
-model = build_model(True)
+is_cuda = len(sys.argv) > 1 and sys.argv[1] == "cuda"
+
+model = build_model(is_cuda)
 capture = load_capture()
 class_list = load_classes()
 

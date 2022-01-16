@@ -39,12 +39,14 @@ int main(int argc, char ** argv)
     cv::Mat frame;
     cv::VideoCapture capture("sample.mp4");
     if(!capture.isOpened()){
-	    std::cout << "Error opening video file\n";
+	    std::cerr << "Error opening video file\n";
 	    return -1;
 	}
 
+    bool is_cuda = argc > 1 && strcmp(argv[1], "cuda") == 0;
+
     cv::dnn::Net net;
-    load_net(net, true);
+    load_net(net, is_cuda);
 
     auto model = cv::dnn::DetectionModel(net);
     model.setInputParams(1./255, cv::Size(416, 416), cv::Scalar(), true);
