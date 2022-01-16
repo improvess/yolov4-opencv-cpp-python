@@ -1,25 +1,6 @@
-#include <iostream>
-#include <queue>
-#include <iterator>
-#include <sstream>
 #include <fstream>
-#include <iomanip>
-#include <chrono>
 
-#include <opencv2/core.hpp>
-#include <opencv2/dnn.hpp>
-#include <opencv2/dnn/all_layers.hpp>
-
-#include <opencv2/imgproc.hpp>
-#include <opencv2/highgui.hpp>
-
-/*
- * compile it with: g++ -O3 src/yolo.cpp -o yolo_example `pkg-config --cflags --libs opencv4`
- *
- * and run it using:
- * 
- * .yolo_example
- */
+#include <opencv2/opencv.hpp>
 
 std::vector<std::string> load_class_list() {
     std::vector<std::string> class_list;
@@ -38,6 +19,8 @@ void load_net(cv::dnn::Net &net) {
     auto result = cv::dnn::readNetFromDarknet("config_files/yolo" + YOLO_VERSION + ".cfg", "config_files/yolo" + YOLO_VERSION + ".weights");
     net.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
     net.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
+    //net.setPreferableBackend(cv::dnn::DNN_BACKEND_CUDA);
+    //net.setPreferableTarget(cv::dnn::DNN_TARGET_CUDA_FP16);
 
     net = result;
 }
@@ -65,6 +48,7 @@ int main(int argc, char ** argv)
     auto start = std::chrono::high_resolution_clock::now();
     int frame_count = 0;
     float fps = -1;
+    int total_frames = 0;
 
     while(true)
     {
@@ -80,6 +64,7 @@ int main(int argc, char ** argv)
         std::vector<cv::Rect> boxes;
         model.detect(frame, classIds, confidences, boxes, 0.2, 0.4);
         frame_count++;
+        total_frames++;
 
         int detections = classIds.size();
 
@@ -122,6 +107,8 @@ int main(int argc, char ** argv)
             break;
         }
     }
+
+    std::cout << "Total frames: " << total_frames << "\n";
 
     return 0;
 }

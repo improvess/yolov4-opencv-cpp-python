@@ -3,8 +3,10 @@ import time
 
 def build_model():
     net = cv2.dnn.readNet("config_files/yolov4-tiny.weights", "config_files/yolov4-tiny.cfg")
-    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
-    net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+    #net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+    #net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+    net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
 
     model = cv2.dnn_DetectionModel(net)
     model.setInputParams(size=(416, 416), scale=1./255, swapRB=True)
@@ -28,6 +30,7 @@ class_list = load_classes()
 
 start = time.time_ns()
 frame_count = 0
+total_frames = 0
 fps = -1
 
 while True:
@@ -39,6 +42,7 @@ while True:
 
     classIds, confidences, boxes = model.detect(frame, .2, .4)
     frame_count += 1
+    total_frames += 1
 
     for (classid, confidence, box) in zip(classIds, confidences, boxes):
         color = colors[int(classid) % len(colors)]
