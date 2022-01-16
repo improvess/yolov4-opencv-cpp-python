@@ -1,8 +1,10 @@
 import cv2
 import time
 
+YOLO_VERSION = "v4-tiny"
+
 def build_model(is_cuda):
-    net = cv2.dnn.readNet("config_files/yolov4-tiny.weights", "config_files/yolov4-tiny.cfg")
+    net = cv2.dnn.readNet("config_files/yolo" + YOLO_VERSION + ".weights", "config_files/yolo" + YOLO_VERSION + ".cfg")
     if is_cuda:
         print("Attempty to use CUDA")
         net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
@@ -69,3 +71,5 @@ while True:
     if cv2.waitKey(1) > -1:
         print("finished by user")
         break
+
+print("Total frames: " + str(total_frames))

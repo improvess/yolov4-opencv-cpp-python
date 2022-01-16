@@ -66,7 +66,7 @@ int main(int argc, char ** argv)
         std::vector<int> classIds;
         std::vector<float> confidences;
         std::vector<cv::Rect> boxes;
-        model.detect(frame, classIds, confidences, boxes, 0.2, 0.4);
+        model.detect(frame, classIds, confidences, boxes, .2, .4);
         frame_count++;
         total_frames++;
 
