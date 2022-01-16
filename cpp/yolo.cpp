@@ -19,12 +19,12 @@ void load_net(cv::dnn::Net &net, bool is_cuda) {
     auto result = cv::dnn::readNetFromDarknet("config_files/yolo" + YOLO_VERSION + ".cfg", "config_files/yolo" + YOLO_VERSION + ".weights");
     if (is_cuda) {
         std::cout << "Attempty to use CUDA\n";
-        net.setPreferableBackend(cv::dnn::DNN_BACKEND_CUDA);
-        net.setPreferableTarget(cv::dnn::DNN_TARGET_CUDA_FP16);
+        result.setPreferableBackend(cv::dnn::DNN_BACKEND_CUDA);
+        result.setPreferableTarget(cv::dnn::DNN_TARGET_CUDA_FP16);
     } else {
         std::cout << "Running on CPU\n";
-        net.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
-        net.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
+        result.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
+        result.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
     }
     net = result;
 }
