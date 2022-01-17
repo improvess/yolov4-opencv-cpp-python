@@ -1,5 +1,8 @@
 # yolov4-opencv-cpp-python
-Example of using YOLO v4 with OpenCV, C++ and Python
+
+Example of performing inference with Darknet YOLO V4, OpenCV 4.4.0 DNN, C++ and Python 
+
+Looking for YOLO V5 OpenCV C++/Python inference? [Check this repository](https://github.com/doleron/yolov5-opencv-cpp-python)
 
 ## Prerequisites
 
